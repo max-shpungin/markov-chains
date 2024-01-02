@@ -35,6 +35,10 @@ class MarkovMachine {
 
     // loop through the array, for each word get the subsequent word....
 
+    if(this.words.length === 0){
+      process.exit(1)
+    }
+
     const markovChains = {};
 
     for (let i = 0; i < this.words.length; i++) {
