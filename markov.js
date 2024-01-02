@@ -38,10 +38,14 @@ class MarkovMachine {
     const markovChains = {};
 
     for (let i = 0; i < this.words.length; i++) {
-     // const currentChain = [];
-      markovChains[this.words[i]] = this.words[i + 1] === undefined ?
-        [null] : [this.words[i + 1]];
+     const currentChain = [];
+     const thingtoPush = this.words[i + 1] === undefined ?
+        null : this.words[i + 1];
+
+        currentChain.push(thingtoPush);
+        markovChains[this.words[i]] = currentChain;
     }
+
     return markovChains;
   }
 
@@ -49,32 +53,35 @@ class MarkovMachine {
   /** Return random text from chains, starting at the first word and continuing
    *  until it hits a null choice. */
 
-  getText() {
-    // TODO: implement this!
+    getText() {
 
-    // - start at the first word in the input text
-    // - find a random word from the following-words of that
-    // - repeat until reaching the terminal null
+      // - start at the first word in the input text
+      // - find a random word from the following-words of that
+      // - repeat until reaching the terminal null
 
-    // iterate through this.chain. Maybe iterate through just the object keys
-    // for that object key, access object value and pick a random word from array
-    // let currentWord =
+      // init a markovString
 
-    const words = Object.keys(this.chains);
-    // [The, cat, in, the, hat];
-    // const newString = words.map(w => newString += _.sample(chains[w]) )
-    // if randomWord == null, return newString and break; else restart loop
-    const markOvString = '';
-    // let index = words[words.length-1];
+      // initial word is first word of text input
 
-    for(let i = 0; i < words.length; i++){
-      markOvString += words[i];
-      randomWord = _.sample(chains[word]);
-      markOvString += randomWord;
+      // use a while loop
+      // while random word is not null append word to markovString
+
+      let markovString = '';
+      let currentWord = this.words[0]; //start with first word of text input
+
+      while(currentWord){
+        markovString += `${currentWord} `;
+        currentWord = _.sample(this.chains[currentWord]);
+      }
+
+      return markovString.trim();
     }
-  }
 }
 
 module.exports = {
   MarkovMachine,
 };
+
+let machine = new MarkovMachine("The cat is in the hat. The cat is the cat. The hat is a cat.");
+
+machine.getText();
