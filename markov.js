@@ -38,12 +38,15 @@ class MarkovMachine {
     const markovChains = {};
 
     for (let i = 0; i < this.words.length; i++) {
-     const currentChain = [];
-     const thingtoPush = this.words[i + 1] === undefined ?
-        null : this.words[i + 1];
+      const word = this.words[i];
+      const nextWord = this.words[i + 1] || null;
 
-        currentChain.push(thingtoPush);
-        markovChains[this.words[i]] = currentChain;
+      if (!markovChains[word]) {
+        markovChains[word] = [];
+        markovChains[word].push(nextWord);
+      } else {
+        markovChains[word].push(nextWord);
+      }
     }
 
     return markovChains;
@@ -53,35 +56,29 @@ class MarkovMachine {
   /** Return random text from chains, starting at the first word and continuing
    *  until it hits a null choice. */
 
-    getText() {
+  getText() {
 
-      // - start at the first word in the input text
-      // - find a random word from the following-words of that
-      // - repeat until reaching the terminal null
+    // - start at the first word in the input text
+    // - find a random word from the following-words of that
+    // - repeat until reaching the terminal null
 
-      // init a markovString
+    let markovString = '';
+    let currentWord = this.words[0]; //start with first word of text input
 
-      // initial word is first word of text input
-
-      // use a while loop
-      // while random word is not null append word to markovString
-
-      let markovString = '';
-      let currentWord = this.words[0]; //start with first word of text input
-
-      while(currentWord){
-        markovString += `${currentWord} `;
-        currentWord = _.sample(this.chains[currentWord]);
-      }
-
-      return markovString.trim();
+    while (currentWord) {
+      markovString += `${currentWord} `;
+      currentWord = _.sample(this.chains[currentWord]);
     }
+
+    return markovString.trim();
+  }
 }
 
 module.exports = {
   MarkovMachine,
 };
 
-let machine = new MarkovMachine("The cat is in the hat. The cat is the cat. The hat is a cat.");
+// let machine = new MarkovMachine("The cat is in the hat. The cat is the cat.
+// The hat is a cat.");
 
-machine.getText();
+// machine.getText();
