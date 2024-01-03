@@ -1,3 +1,5 @@
+"use strict";
+
 const { MarkovMachine } = require('./markov');
 
 describe("get markov chains", ()=>{
@@ -23,7 +25,7 @@ describe("get markov chains", ()=>{
       "hat.": ["The"],
       "cat.": ["The", null],
       "hat":  ["is"],
-      "a":    ["cat"],
+      "a":    ["cat."],
     }
 
     testMachine = new MarkovMachine('The cat is in the hat. The cat is the cat. The hat is a cat.');
@@ -32,4 +34,18 @@ describe("get markov chains", ()=>{
 
   });
 
+});
+
+describe('get Markov String', () => {
+
+  test("returns a string", () => {
+    testMachine = new MarkovMachine('The cat is in the hat. The cat is the cat. The hat is a cat.');
+
+    expect(testMachine.getText()).toEqual(expect.any(String));
+  });
+
+  test("returns a markov string", () => {
+    testMachine = new MarkovMachine('The cat is in the hat.');
+    expect(testMachine.getText()).toEqual('The cat is in the hat.');
+  })
 });
