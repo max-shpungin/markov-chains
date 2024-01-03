@@ -43,10 +43,8 @@ class MarkovMachine {
 
       if (!markovChains[word]) {
         markovChains[word] = [];
-        markovChains[word].push(nextWord);
-      } else {
-        markovChains[word].push(nextWord);
       }
+      markovChains[word].push(nextWord);
     }
 
     return markovChains;
@@ -69,6 +67,9 @@ class MarkovMachine {
       markovString += `${currentWord} `;
       currentWord = _.sample(this.chains[currentWord]);
     }
+    //TODO: Improvement opportunity: We have an On2 within our while loop.
+    //  Create a words array, and push to array (O1).
+    // Join the array.
 
     return markovString.trim();
   }
